@@ -28,15 +28,26 @@ Output: [0,1]
 
 // Answer
 
-var twoSum = function(nums, target) {
-     const map = new Map();
+// var twoSum = function(nums, target) {
+//      const map = new Map();
 
-     for(let i = 0; i< nums.length; i++) {
-        const total = target - nums[i];
+//      for(let i = 0; i< nums.length; i++) {
+//         const total = target - nums[i];
 
-        if(map.has(total)) {
-            return [map.get(total), i]
-        }
-        map.set(nums[i], i)
-     }
-};
+//         if(map.has(total)) {
+//             return [map.get(total), i]
+//         }
+//         map.set(nums[i], i)
+//      }
+// };
+
+
+var x = 6
+
+function getName() {
+    console.log('Javascript')
+}
+
+getName()
+console.log(x)
+console.log(getName)
