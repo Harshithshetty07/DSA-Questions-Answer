@@ -204,3 +204,157 @@ var myAtoi = function(s) {
 
     return result;
 };
+
+
+/* 
+    Question 6 Palindrome Number
+Given an integer x, return true if x is a palindrome, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+Example 2:
+
+Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+*/
+
+// Answer
+
+var isPalindrome = function(x) {
+    if( x < 0) return false;
+
+    const str = x.toString();
+
+    const reversed = str.split('').reverse().join('');
+
+    return str === reversed
+};
+
+
+/* 
+    Question 7 Regular Expression Matching
+
+    Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+
+'.' Matches any single character.​​​​
+'*' Matches zero or more of the preceding element.
+The matching should cover the entire input string (not partial).
+
+ 
+
+Example 1:
+
+Input: s = "aa", p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+Example 2:
+
+Input: s = "aa", p = "a*"
+Output: true
+Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
+*/
+
+// Answer
+
+var isMatch = function(s, p) {
+   const m = s.length;
+   const n = p.length;
+
+   const dp = Array.from({ length: m + 1}, () => Array(n +1).fill(false));
+
+   dp[0][0] = true;
+
+   for(let j =1; j<=n; j++) {
+    if(p[j - 1] === '*') {
+        dp[0][j] = dp[0][j-2]
+    }
+   } 
+
+for(let i = 1; i<= m; i++) {
+    for(let j = 1; j <= n; j++) {
+        if( p[ j - 1] === '.' || p[j - 1] === s[i -1 ]) {
+            dp[i][j] = dp[i - 1][j- 1];
+        } else if( p[j-1] === '*' ) {
+            dp[i][j] = dp[i][j- 2];
+
+            if(p[j - 2] === '.' || p[ j- 2] === s[j - 1]) {
+                dp[i][j] = dp[i][j] || dp[i -1 ][j]
+            }
+        }
+    }
+}
+return dp[m][n]
+};
+
+// simple answer 
+
+var isMatch = function(s, p) {
+    // Base case: if pattern is empty, string must also be empty
+    if (p.length === 0) {
+        return s.length === 0;
+    }
+
+    // Check if first character matches (or if pattern starts with '.')
+    const firstMatch = s.length > 0 && (p[0] === s[0] || p[0] === '.');
+
+    // If next character in pattern is '*'
+    if (p.length >= 2 && p[1] === '*') {
+        // Two possibilities:
+        // 1️⃣ '*' means zero occurrence of previous char → skip two chars in pattern
+        // 2️⃣ '*' means one or more occurrences → move one char in string if firstMatch
+        return (
+            isMatch(s, p.slice(2)) || 
+            (firstMatch && isMatch(s.slice(1), p))
+        );
+    } else {
+        // If no '*', move one char forward in both string and pattern
+        return firstMatch && isMatch(s.slice(1), p.slice(1));
+    }
+};
+
+
+/* Question 8  Container With Most Water 
+
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+*/
+
+// Answer
+
+var maxArea = function(height) {
+    let left = 0;
+    let right = height.length - 1;
+    let maxWater = 0;
+
+    while(left < right) {
+        const width = right - left;
+        const minHeight = Math.min(height[left], height[right]);
+        const area = width * minHeight;
+
+        maxWater = Math.max(maxWater, area);
+
+        if(height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return maxWater;
+};
