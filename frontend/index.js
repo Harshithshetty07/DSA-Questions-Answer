@@ -432,3 +432,107 @@ for( let i =0; i<s.length; i++) {
 
 return total
 };
+
+
+/* Problem 10 : Longest Common Prefi 
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+ 
+
+Example 1:
+
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+Example 2:
+
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+
+*/
+
+// Answer 
+
+var longestCommonPrefix = function(strs) {
+    if(!strs.length) return "";
+
+    let longChar = strs[0];
+
+    for(let i = 1; i < strs.length; i++) {
+        while(strs[i].indexOf(longChar) !==0) {         // indexOf: Method in JavaScript is used to find the first occurrence of a specified value within a string or array.
+            longChar = longChar.slice(0, longChar.length - 1); // Slice: is used to extract a portion of an array or string and return it as a new array or string respectively
+            if(!longChar) return "";
+        }
+    }
+    return longChar
+};
+
+
+/* problem: 11 => 3Sum
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+ 
+
+Example 1:
+
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+Example 2:
+
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+Example 3:
+
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+
+*/
+
+// Answer 
+
+var threeSum = function(nums) {
+    nums.sort((a, b) => a - b);
+    let result = [];
+
+    for(let i = 0; i <nums.length - 2; i++) {
+        if(i > 0 && nums[i] === nums[i - 1]) continue;
+
+    let left = i + 1;
+    let right = nums.length - 1;
+
+    while( left < right) {
+        const sum = nums[i] + nums[left] + nums[right];
+
+        if(sum === 0) {
+            result.push([nums[i], nums[left], nums[right]])
+            left++;
+            right--
+
+            while(left < right && nums[left] === nums[left - 1]) left++;
+            while(left < right && nums[right] === nums[right + 1]) right--
+        }
+        else if( sum < 0) {
+            left++
+        }
+        else {
+            right--
+        }
+    }
+
+
+    }
+    return result
+};
