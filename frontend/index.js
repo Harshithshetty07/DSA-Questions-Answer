@@ -536,3 +536,104 @@ var threeSum = function(nums) {
     }
     return result
 };
+
+
+
+/* Problem 12: 3sum Closet
+Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
+
+ 
+
+Example 1:
+
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+Example 2:
+
+Input: nums = [0,0,0], target = 1
+Output: 0
+Explanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).
+
+*/
+
+// Answer:  
+//  I cleared case 1 but case2 to returns wrong answer
+// mycode: 
+// var threeSumClosest = function(nums, target) { 
+//     for(let i = 0; i < nums.length; i++) {
+//         if(nums[i] > target) {
+//             number = nums[i]
+//         } 
+       
+//     }
+//     return number
+// };
+
+
+// answer: 
+    var threeSumClosest = function(nums, target) {
+    let closeSum = Infinity;
+
+    for(let i = 0; i < nums.length; i++) {
+        for(let j = i + 1; j < nums.length - 1; j++) {
+            for(let k = j + 1; k < nums.length; k++) {
+                let sum = nums[i] + nums[j] + nums[k];
+
+                if(Math.abs(target - sum) < Math.abs(target - closeSum)) {
+                    closeSum = sum;
+                }
+            }
+        }
+    }
+    return closeSum;
+};
+
+
+// Problem 13 : 4Sum
+
+/* 
+Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+
+0 <= a, b, c, d < n
+a, b, c, and d are distinct.
+nums[a] + nums[b] + nums[c] + nums[d] == target
+You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+Example 2:
+
+Input: nums = [2,2,2,2,2], target = 8
+Output: [[2,2,2,2]]
+*/
+
+// Answer: 
+
+var fourSum = function(nums, target) {
+    let result = new Set();
+    let n = nums.length;
+
+    for(let i = 0; i < n; i++) {
+        for(let j = i + 1; j < n; j++) {
+            for(let k = j + 1; k < n; k++) {
+                for(let p = k + 1; p < n; p++) {
+                    let sum = nums[i] + nums[j] + nums[k] + nums[p];
+                    if( sum === target) {
+                        let foursSum = [nums[i], nums[j], nums[k], nums[p]].sort((x, y) => x - y);
+                        result.add(JSON.stringify(foursSum))
+                    }
+                }
+            }
+        }
+    }
+    return Array.from(result).map(JSON.parse)
+};
